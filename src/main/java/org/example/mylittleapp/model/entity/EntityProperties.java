@@ -41,4 +41,15 @@ public class EntityProperties {
     public static final String FK_LESSON = "fk_lesson";
   }
 
+  @NoArgsConstructor
+  public static class EntityBinaryProperties{
+    public static final String TABLE = "pk_binary_asset";
+    public static final String PK_BINARY_ASSET = "pk_binary_asset";
+    public static final String FILE_NAME = "file_name";
+    public static final String MIME_TYPE = "mime_type";
+    public static final String URL = "url";
+    public static final String BINARY_DATA = "binary_data";
+    public static final String FK_MARKDOWN = "fk_markdown";
+  }
+
 }
