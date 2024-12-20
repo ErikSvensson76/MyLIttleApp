@@ -7,7 +7,7 @@ import java.util.Objects;
 import static org.example.mylittleapp.model.entity.EntityProperties.EntityBinaryProperties.*;
 
 @Entity
-@Table(name = "binary_assets")
+@Table(name = TABLE)
 public class EntityBinary {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
