@@ -2,11 +2,9 @@ package org.example.mylittleapp.validation.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
 import org.example.mylittleapp.service.repos.EntityCourseRepo;
 import org.example.mylittleapp.validation.annotations.UniqueLanguage;
 
-@RequiredArgsConstructor
 public class UniqueLanguageValidator implements ConstraintValidator<UniqueLanguage, String> {
   @Override
   public void initialize(UniqueLanguage constraintAnnotation) {
@@ -14,6 +12,10 @@ public class UniqueLanguageValidator implements ConstraintValidator<UniqueLangua
   }
 
   private final EntityCourseRepo entityCourseRepo;
+
+  public UniqueLanguageValidator(EntityCourseRepo entityCourseRepo) {
+    this.entityCourseRepo = entityCourseRepo;
+  }
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
