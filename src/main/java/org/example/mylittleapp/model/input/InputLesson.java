@@ -3,17 +3,13 @@ package org.example.mylittleapp.model.input;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.example.mylittleapp.validation.OnPut;
 import org.example.mylittleapp.validation.annotations.UniqueLesson;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 @Validated
-@Getter
-@Setter
-@NoArgsConstructor
 public class InputLesson {
 
   @NotBlank(groups = OnPut.class)
@@ -24,7 +20,37 @@ public class InputLesson {
   @NotNull(message = "This field is mandatory.")
   @Positive(message = "This field requires a positive value.")
   private Integer order;
-  //private List<@NotNull InputMarkdown> slides;
+  private List<@NotNull InputMarkdown> slides;
 
+  public String getId() {
+    return id;
+  }
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getLesson() {
+    return lesson;
+  }
+
+  public void setLesson(String lesson) {
+    this.lesson = lesson;
+  }
+
+  public Integer getOrder() {
+    return order;
+  }
+
+  public void setOrder(Integer order) {
+    this.order = order;
+  }
+
+  public List<InputMarkdown> getSlides() {
+    return slides;
+  }
+
+  public void setSlides(List<InputMarkdown> slides) {
+    this.slides = slides;
+  }
 }

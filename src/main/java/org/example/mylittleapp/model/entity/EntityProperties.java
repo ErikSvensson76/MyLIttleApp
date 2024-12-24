@@ -1,11 +1,8 @@
 package org.example.mylittleapp.model.entity;
 
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 public class EntityProperties {
 
-  @NoArgsConstructor
   public static class EntityCourseProperties{
     public static final String TABLE = "course";
     public static final String PK_COURSE = "pk_course";
@@ -13,7 +10,7 @@ public class EntityProperties {
     public static final String DIFFICULTY = "difficulty";
   }
 
-  @NoArgsConstructor
+
   public static class EntityTopicProperties{
     public static final String TABLE = "topic";
     public static final String PK_TOPIC = "pk_topic";
@@ -23,7 +20,7 @@ public class EntityProperties {
     public static final String FK_COURSE = "fk_course";
   }
 
-  @NoArgsConstructor
+
   public static class EntityLessonProperties{
     public static final String TABLE = "lesson";
     public static final String PK_LESSON = "pk_lesson";
@@ -32,7 +29,7 @@ public class EntityProperties {
     public static final String FK_TOPIC = "fk_topic";
   }
 
-  @NoArgsConstructor
+
   public static class EntityMarkdownProperties{
     public static final String TABLE = "markdown";
     public static final String PK_MARKDOWN = "pk_markdown";
@@ -41,7 +38,6 @@ public class EntityProperties {
     public static final String FK_LESSON = "fk_lesson";
   }
 
-  @NoArgsConstructor
   public static class EntityBinaryProperties{
     public static final String TABLE = "pk_binary_asset";
     public static final String PK_BINARY_ASSET = "pk_binary_asset";
