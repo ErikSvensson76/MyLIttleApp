@@ -1,0 +1,110 @@
+package org.example.mylittleapp.service.dao;
+
+import org.example.mylittleapp.exception.DuplicatePropertyException;
+import org.example.mylittleapp.exception.NoEntityFoundException;
+import org.example.mylittleapp.model.entity.EntityLesson;
+import org.example.mylittleapp.model.entity.EntityTopic;
+import org.example.mylittleapp.model.input.InputLesson;
+import org.example.mylittleapp.service.repos.EntityLessonRepo;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional(rollbackFor = RuntimeException.class)
+public class LessonServiceDao implements LessonService{
+
+  private final EntityLessonRepo repository;
+  private final MarkdownService markdownService;
+
+  public LessonServiceDao(EntityLessonRepo repository, MarkdownService markdownService) {
+    this.repository = repository;
+    this.markdownService = markdownService;
+  }
+
+  @Override
+  public EntityLesson findByLesson(String lesson) {
+    return repository.findByLesson(lesson)
+        .orElseThrow(() -> new NoEntityFoundException("No entity found for lesson " + lesson));
+  }
+
+  @Override
+  public EntityLesson findById(String id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new NoEntityFoundException("No entity found for id " + id));
+  }
+
+  @Override
+  public List<EntityLesson> findAll() {
+    return repository.findAll();
+  }
+
+  @Override
+  public EntityLesson save(InputLesson inputLesson) {
+    if (inputLesson == null) throw new IllegalArgumentException("inputLesson cannot be null");
+    EntityLesson entityLesson;
+    if(inputLesson.getId() == null){
+      entityLesson = new EntityLesson();
+      entityLesson.setLesson(inputLesson.getLesson().trim());
+      entityLesson.setOrder(inputLesson.getOrder());
+      entityLesson = repository.save(entityLesson);
+    }else{
+      entityLesson = findById(inputLesson.getId());
+      entityLesson.setOrder(inputLesson.getOrder());
+      if(isDuplicateLesson(entityLesson, inputLesson)){
+        throw new DuplicatePropertyException("Duplicate lesson: " + inputLesson.getLesson());
+      }
+      entityLesson.setLesson(inputLesson.getLesson().trim());
+    }
+    if(inputLesson.getSlides() != null && !inputLesson.getSlides().isEmpty()){
+      entityLesson.setSlides(
+          markdownService.saveAll(inputLesson.getSlides())
+      );
+    }
+    return repository.save(entityLesson);
+  }
+
+  public boolean isDuplicateLesson(EntityLesson current, InputLesson input){
+    Optional<EntityLesson> optional = repository.findById(input.getId());
+    if(optional.isPresent()){
+      EntityLesson lesson = optional.get();
+      return lesson.getLesson().equals(current.getLesson().trim())
+          && !current.getId().equals(lesson.getId());
+    }
+    return false;
+  }
+
+  @Override
+  public List<EntityLesson> saveAll(List<InputLesson> inputLessons) {
+    if(inputLessons == null) throw new IllegalArgumentException("inputLessons cannot be null");
+    return inputLessons.stream()
+        .filter(Objects::nonNull)
+        .map(this::save)
+        .collect(Collectors.toList());
+  }
+
+  @Override
+  public boolean delete(String id) {
+    EntityLesson entityLesson = findById(id);
+    entityLesson.setSlides(null);
+    EntityTopic topic = entityLesson.getTopic();
+    if(topic != null && !topic.getLessons().isEmpty()){
+      topic.removeLesson(entityLesson);
+    }
+    repository.delete(entityLesson);
+    return repository.findById(id).isEmpty();
+  }
+
+  @Override
+  public boolean deleteAll(List<String> ids) {
+    if(ids == null) throw new IllegalArgumentException("ids cannot be null");
+    return ids.stream()
+        .filter(Objects::nonNull)
+        .map(this::delete)
+        .allMatch(bool -> bool.equals(true));
+  }
+}

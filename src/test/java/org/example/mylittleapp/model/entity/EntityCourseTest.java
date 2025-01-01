@@ -15,7 +15,7 @@ class EntityCourseTest {
 
   @Test
   void entityInstantiation() {
-    EntityCourse course = testUtils.getRandomCourse(true);
+    EntityCourse course = testUtils.getEntityCourse(true);
 
     course.setTopics(
         Stream.generate(() -> testUtils.getEntityTopic(true))
@@ -35,7 +35,7 @@ class EntityCourseTest {
 
   @Test
   void removeAllTopics(){
-    EntityCourse course = testUtils.getRandomCourse(true);
+    EntityCourse course = testUtils.getEntityCourse(true);
     course.setTopics(
         Stream.generate(() -> testUtils.getEntityTopic(true))
             .limit(2)
@@ -52,7 +52,7 @@ class EntityCourseTest {
 
   @Test
   void removeSingleTopic(){
-    EntityCourse course = testUtils.getRandomCourse(true);
+    EntityCourse course = testUtils.getEntityCourse(true);
     EntityTopic topic = testUtils.getEntityTopic(true);
     course.setTopics(new ArrayList<>(Collections.singletonList(topic)));
 
@@ -65,7 +65,7 @@ class EntityCourseTest {
 
   @Test
   void addSingleTopic(){
-    EntityCourse course = testUtils.getRandomCourse(true);
+    EntityCourse course = testUtils.getEntityCourse(true);
     EntityTopic topic = testUtils.getEntityTopic(true);
     course.addTopic(topic);
 
