@@ -146,7 +146,7 @@ class CourseServiceDaoTest {
     assertNotNull(course);
     assertFalse(course.getTopics().isEmpty());
 
-    boolean result = underTest.delete(course.getId());;
+    boolean result = underTest.delete(course.getId());
     assertTrue(result);
   }
 }
