@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = RuntimeException.class)
-public class MarkdownServiceDao implements MarkdownService{
+public class EntityMarkdownServiceDao implements EntityMarkdownService {
 
   private final EntityMarkdownRepo repository;
 
-  public MarkdownServiceDao(EntityMarkdownRepo repository) {
+  public EntityMarkdownServiceDao(EntityMarkdownRepo repository) {
     this.repository = repository;
   }
 

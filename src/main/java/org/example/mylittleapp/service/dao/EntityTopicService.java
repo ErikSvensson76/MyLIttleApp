@@ -5,7 +5,7 @@ import org.example.mylittleapp.model.input.InputTopic;
 import org.example.mylittleapp.service.generic.GenericFetchService;
 import org.example.mylittleapp.service.generic.GenericPersistenceService;
 
-public interface TopicService extends
+public interface EntityTopicService extends
     GenericPersistenceService<InputTopic, EntityTopic>,
     GenericFetchService<EntityTopic>
 {

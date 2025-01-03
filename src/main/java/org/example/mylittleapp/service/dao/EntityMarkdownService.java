@@ -5,7 +5,7 @@ import org.example.mylittleapp.model.input.InputMarkdown;
 import org.example.mylittleapp.service.generic.GenericFetchService;
 import org.example.mylittleapp.service.generic.GenericPersistenceService;
 
-public interface MarkdownService extends
+public interface EntityMarkdownService extends
     GenericPersistenceService<InputMarkdown, EntityMarkdown>,
     GenericFetchService<EntityMarkdown>
 {}
