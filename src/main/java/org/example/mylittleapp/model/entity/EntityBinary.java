@@ -21,7 +21,7 @@ public class EntityBinary {
   private String url;
   @Lob @Basic(fetch = FetchType.LAZY)
   @Column(name = BINARY_DATA)
-  private Byte[] binaryData;
+  private byte[] binaryData;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = FK_MARKDOWN)
   private EntityMarkdown parent;
@@ -58,11 +58,11 @@ public class EntityBinary {
     this.url = url;
   }
 
-  public Byte[] getBinaryData() {
+  public byte[] getBinaryData() {
     return binaryData;
   }
 
-  public void setBinaryData(Byte[] binaryData) {
+  public void setBinaryData(byte[] binaryData) {
     this.binaryData = binaryData;
   }
 

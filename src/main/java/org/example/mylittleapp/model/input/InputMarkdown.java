@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import org.example.mylittleapp.validation.OnPut;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ public class InputMarkdown implements Serializable {
   @Positive(message = "This field requires a positive value.")
   private Integer order;
   private List<String> markdownContent;
+  private MultipartFile markdownFile;
 
   public String getId() {
     return id;
@@ -42,4 +44,11 @@ public class InputMarkdown implements Serializable {
     this.markdownContent = markdownContent;
   }
 
+  public MultipartFile getMarkdownFile() {
+    return markdownFile;
+  }
+
+  public void setMarkdownFile(MultipartFile markdownFile) {
+    this.markdownFile = markdownFile;
+  }
 }

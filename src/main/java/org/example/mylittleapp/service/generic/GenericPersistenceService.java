@@ -1,10 +1,12 @@
 package org.example.mylittleapp.service.generic;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public interface GenericPersistenceService <INPUT,ENTITY>{
 
-  ENTITY save(INPUT input);
+  ENTITY save(@NotNull INPUT input);
 
   List<ENTITY> saveAll(List<INPUT> inputs);
 

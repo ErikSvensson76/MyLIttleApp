@@ -1,13 +1,17 @@
 package org.example.mylittleapp.service.dao;
 
 import org.example.mylittleapp.exception.NoEntityFoundException;
+import org.example.mylittleapp.exception.RuntimeIOException;
 import org.example.mylittleapp.model.entity.EntityLesson;
 import org.example.mylittleapp.model.entity.EntityMarkdown;
 import org.example.mylittleapp.model.input.InputMarkdown;
 import org.example.mylittleapp.service.repos.EntityMarkdownRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -44,8 +48,26 @@ public class EntityMarkdownServiceDao implements EntityMarkdownService {
       entityMarkdown = findById(inputMarkdown.getId());
     }
     entityMarkdown.setOrder(inputMarkdown.getOrder());
-    entityMarkdown.setMarkdownContent(inputMarkdown.getMarkdownContent().stream()
-        .collect(Collectors.joining("\n")));
+
+    String markdown;
+    if(inputMarkdown.getMarkdownFile() == null && inputMarkdown.getMarkdownContent() == null){
+      markdown = "";
+    }else if(inputMarkdown.getMarkdownFile() != null && !inputMarkdown.getMarkdownFile().isEmpty()){
+      MultipartFile file = inputMarkdown.getMarkdownFile();
+      if(file.getContentType() == null) throw new IllegalArgumentException("Input markdown file type cannot be null");
+      if(!file.getContentType().equals("text/markdown")) throw new IllegalArgumentException("Input markdown file type must be text/markdown");
+
+      try(BufferedReader reader = new BufferedReader(new InputStreamReader(file.getResource().getInputStream()))){
+        markdown = reader.lines().collect(Collectors.joining("\n"));
+      }catch (Exception e){
+        throw new RuntimeIOException("Error reading markdown file", e);
+      }
+    }else{
+      markdown = inputMarkdown.getMarkdownContent().stream()
+          .collect(Collectors.joining("\n"));
+    }
+
+    entityMarkdown.setMarkdownContent(markdown);
 
     return repository.save(entityMarkdown);
   }
@@ -77,5 +99,10 @@ public class EntityMarkdownServiceDao implements EntityMarkdownService {
         .filter(Objects::nonNull)
         .map(this::delete)
         .allMatch(bool -> bool.equals(true));
+  }
+
+  @Override
+  public List<String> readMultipartFile(MultipartFile file) {
+    return List.of();
   }
 }
