@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = RuntimeException.class)
-public class LessonServiceDao implements LessonService{
+public class EntityLessonServiceDao implements EntityLessonService {
 
   private final EntityLessonRepo repository;
-  private final MarkdownService markdownService;
+  private final EntityMarkdownService entityMarkdownService;
 
-  public LessonServiceDao(EntityLessonRepo repository, MarkdownService markdownService) {
+  public EntityLessonServiceDao(EntityLessonRepo repository, EntityMarkdownService entityMarkdownService) {
     this.repository = repository;
-    this.markdownService = markdownService;
+    this.entityMarkdownService = entityMarkdownService;
   }
 
   @Override
@@ -62,7 +62,7 @@ public class LessonServiceDao implements LessonService{
     }
     if(inputLesson.getSlides() != null && !inputLesson.getSlides().isEmpty()){
       entityLesson.setSlides(
-          markdownService.saveAll(inputLesson.getSlides())
+          entityMarkdownService.saveAll(inputLesson.getSlides())
       );
     }
     return repository.save(entityLesson);

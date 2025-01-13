@@ -5,7 +5,7 @@ import org.example.mylittleapp.model.input.InputCourse;
 import org.example.mylittleapp.service.generic.GenericFetchService;
 import org.example.mylittleapp.service.generic.GenericPersistenceService;
 
-public interface CourseService extends
+public interface EntityCourseService extends
     GenericPersistenceService<InputCourse, EntityCourse>,
     GenericFetchService<EntityCourse>
 {

@@ -24,9 +24,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @Transactional
 @DirtiesContext
-class CourseServiceDaoTest {
+class EntityCourseServiceDaoTest {
 
-  @Autowired CourseServiceDao underTest;
+  @Autowired
+  EntityCourseServiceDao underTest;
   @Autowired TestEntityManager em;
   TestUtils testUtils = TestUtils.getInstance();
 

@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = RuntimeException.class)
-public class CourseServiceDao implements CourseService{
+public class EntityCourseServiceDao implements EntityCourseService {
 
   private final EntityCourseRepo repository;
-  private final TopicService topicService;
+  private final EntityTopicService entityTopicService;
 
-  public CourseServiceDao(EntityCourseRepo repository, TopicService topicService) {
+  public EntityCourseServiceDao(EntityCourseRepo repository, EntityTopicService entityTopicService) {
     this.repository = repository;
-    this.topicService = topicService;
+    this.entityTopicService = entityTopicService;
   }
 
   @Override
@@ -62,7 +62,7 @@ public class CourseServiceDao implements CourseService{
     }
     if(inputCourse.getTopics() != null && !inputCourse.getTopics().isEmpty()){
       entityCourse.setTopics(
-          topicService.saveAll(inputCourse.getTopics())
+          entityTopicService.saveAll(inputCourse.getTopics())
       );
     }
     return repository.save(entityCourse);

@@ -4,13 +4,19 @@ import org.example.mylittleapp.TestUtils;
 import org.example.mylittleapp.model.entity.EntityMarkdown;
 import org.example.mylittleapp.model.input.InputMarkdown;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,11 +30,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @Transactional
 @DirtiesContext
-class MarkdownServiceDaoTest {
+class EntityMarkdownServiceDaoTest {
 
-  @Autowired MarkdownServiceDao underTest;
+  private static final Logger log = LoggerFactory.getLogger(EntityMarkdownServiceDaoTest.class);
+  @Autowired
+  EntityMarkdownServiceDao underTest;
   @Autowired TestEntityManager em;
   TestUtils testUtils = TestUtils.getInstance();
+
 
   @Test
   void saveSimpleMarkdown() {
@@ -40,6 +49,37 @@ class MarkdownServiceDaoTest {
     assertEquals(inputMarkdown.getOrder(), result.getOrder());
     assertNotNull(result.getMarkdownContent());
     assertNull(result.getLesson());
+  }
+
+
+
+  @Test
+  void saveMarkdownWithFile() {
+    Resource resource = new ClassPathResource("test.md");
+    assertNotNull(resource);
+    MultipartFile file = null;
+    try{
+      file = new MockMultipartFile(
+          "markdownTest",
+          "test.md",
+          "text/markdown",
+          resource.getInputStream()
+      );
+    }catch (Exception e){
+      log.error(e.getMessage());
+    }
+    assertNotNull(file);
+
+    InputMarkdown input = new InputMarkdown();
+    input.setOrder(1);
+    input.setMarkdownFile(file);
+
+    EntityMarkdown result = underTest.save(input);
+    assertNotNull(result);
+    assertNotNull(result.getId());
+    assertEquals(input.getOrder(), result.getOrder());
+    assertNotNull(result.getMarkdownContent());
+
   }
 
   @Test
