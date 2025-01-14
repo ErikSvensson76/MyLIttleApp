@@ -1,5 +1,6 @@
 package org.example.mylittleapp.model.input;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.example.mylittleapp.validation.OnPost;
 import org.example.mylittleapp.validation.OnPut;
@@ -19,12 +20,12 @@ public class InputTopic implements Serializable {
   @Positive(message = "This field requires a positive value.")
   private Integer order;
   @NotBlank(message = "This field is mandatory.")
-  @UniqueTopic
+  @UniqueTopic(groups = OnPost.class)
   private String topic;
   @NotBlank(message = "This field is mandatory.")
   @Size(message = "Max 255 characters allowed.", max = 255)
   private String description;
-  private List<@NotNull InputLesson> lessons;
+  private List<@Valid @NotNull InputLesson> lessons;
 
   public String getId() {
     return id;
