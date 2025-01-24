@@ -3,7 +3,6 @@ package org.example.mylittleapp.model.input;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.example.mylittleapp.validation.OnPost;
-import org.example.mylittleapp.validation.OnPut;
 import org.example.mylittleapp.validation.annotations.UniqueTopic;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,7 +12,6 @@ import java.util.List;
 @Validated
 public class InputTopic implements Serializable {
 
-  @NotBlank(groups = OnPut.class)
   @Null(groups = OnPost.class)
   private String id;
   @NotNull(message = "This field is mandatory.")

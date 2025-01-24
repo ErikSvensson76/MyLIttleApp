@@ -55,7 +55,7 @@ public class EntityMarkdownServiceDao implements EntityMarkdownService {
     }else if(inputMarkdown.getMarkdownFile() != null && !inputMarkdown.getMarkdownFile().isEmpty()){
       MultipartFile file = inputMarkdown.getMarkdownFile();
       if(file.getContentType() == null) throw new IllegalArgumentException("Input markdown file type cannot be null");
-      if(!file.getContentType().equals("text/markdown")) throw new IllegalArgumentException("Input markdown file type must be text/markdown");
+      if(!file.getContentType().startsWith("text/markdown")) throw new IllegalArgumentException("Input markdown file type must start with text/markdown");
 
       try(BufferedReader reader = new BufferedReader(new InputStreamReader(file.getResource().getInputStream()))){
         markdown = reader.lines().collect(Collectors.joining("\n"));

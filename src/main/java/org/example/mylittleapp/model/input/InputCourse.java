@@ -3,8 +3,8 @@ package org.example.mylittleapp.model.input;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import org.example.mylittleapp.validation.OnPost;
-import org.example.mylittleapp.validation.OnPut;
 import org.example.mylittleapp.validation.annotations.UniqueLanguage;
 import org.springframework.validation.annotation.Validated;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Validated
 public class InputCourse implements Serializable {
 
-  @NotBlank(groups = OnPut.class)
+  @Null(groups = OnPost.class)
   private String id;
   @NotBlank(message = "This field is mandatory")
   @UniqueLanguage(groups = OnPost.class)
