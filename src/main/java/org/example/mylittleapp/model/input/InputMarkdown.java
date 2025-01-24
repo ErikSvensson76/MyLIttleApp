@@ -1,8 +1,9 @@
 package org.example.mylittleapp.model.input;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Positive;
-import org.example.mylittleapp.validation.OnPut;
+import org.example.mylittleapp.validation.OnPost;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Validated
 public class InputMarkdown implements Serializable {
 
-  @NotBlank(groups = OnPut.class)
+  @Null(groups = OnPost.class)
   private String id;
   @NotBlank(message = "This field is mandatory.")
   @Positive(message = "This field requires a positive value.")

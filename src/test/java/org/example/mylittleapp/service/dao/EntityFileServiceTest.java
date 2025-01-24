@@ -26,11 +26,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @Transactional
 @DirtiesContext
-class EntityFileServiceDaoTest {
+class EntityFileServiceTest {
 
-  private static final Logger log = LoggerFactory.getLogger(EntityFileServiceDaoTest.class);
+  private static final Logger log = LoggerFactory.getLogger(EntityFileServiceTest.class);
   @Autowired
-  EntityFileServiceDao underTest;
+  EntityFileService underTest;
   @Autowired TestEntityManager em;
 
 
